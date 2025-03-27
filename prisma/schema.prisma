@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model bookings {
+  booking_id     Int       @id @default(autoincrement())
+  room_id        Int
+  arrival_date   DateTime  @db.DateTime(0)
+  departure_date DateTime  @db.DateTime(0)
+  number_guests  Int
+  user_id        Int
+  created_at     DateTime? @default(now()) @db.Timestamp(0)
+  updated_at     DateTime? @default(now()) @db.Timestamp(0)
+  rooms          rooms     @relation(fields: [room_id], references: [room_id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_ibfk_1")
+  users          users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_ibfk_2")
+
+  @@index([room_id], map: "bookings_ibfk_1")
+  @@index([user_id], map: "bookings_ibfk_2")
+}
+
+model comments {
+  comment_id   Int       @id @default(autoincrement())
+  room_id      Int
+  user_id      Int
+  date_comment DateTime? @default(now()) @db.DateTime(0)
+  content      String?   @db.VarChar(255)
+  star_comment Int?
+  rooms        rooms     @relation(fields: [room_id], references: [room_id], onDelete: NoAction, onUpdate: NoAction, map: "comments_ibfk_1")
+  users        users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "comments_ibfk_2")
+
+  @@index([room_id], map: "comments_ibfk_1")
+  @@index([user_id], map: "comments_ibfk_2")
+}
+
+model locations {
+  location_id    Int       @id @default(autoincrement())
+  name_location  String    @db.VarChar(255)
+  province       String    @db.VarChar(255)
+  nation         Int
+  image_location String?   @db.VarChar(255)
+  created_at     DateTime? @default(now()) @db.Timestamp(0)
+  updated_at     DateTime? @default(now()) @db.Timestamp(0)
+  rooms          rooms[]
+}
+
+model rooms {
+  room_id         Int        @id @default(autoincrement())
+  room_name       String     @db.VarChar(255)
+  living_room     Int
+  bedroom         Int
+  bed             Int
+  bathroom        Int
+  description     String?    @db.VarChar(255)
+  price           Int
+  washing_machine Boolean    @default(false)
+  iron            Boolean    @default(false)
+  television      Boolean    @default(false)
+  air_conditioner Boolean    @default(false)
+  wifi            Boolean    @default(false)
+  kitchen         Boolean    @default(false)
+  parking         Boolean    @default(false)
+  pool            Boolean    @default(false)
+  image           String     @db.VarChar(255)
+  created_at      DateTime?  @default(now()) @db.Timestamp(0)
+  updated_at      DateTime?  @default(now()) @db.Timestamp(0)
+  location_id     Int
+  address         String?    @db.VarChar(255)
+  bookings        bookings[]
+  comments        comments[]
+  locations       locations  @relation(fields: [location_id], references: [location_id], onDelete: Cascade, onUpdate: NoAction, map: "rooms_ibfk1")
+
+  @@index([location_id], map: "rooms_ibfk1")
+}
+
+model users {
+  user_id       Int        @id @default(autoincrement())
+  full_name     String     @db.VarChar(255)
+  email         String     @unique(map: "email") @db.VarChar(255)
+  pass_word     String?    @db.VarChar(255)
+  phone         String?    @db.VarChar(255)
+  birth_day     String?    @db.VarChar(255)
+  gender        String?    @db.VarChar(255)
+  created_at    DateTime?  @default(now()) @db.Timestamp(0)
+  updated_at    DateTime?  @default(now()) @db.Timestamp(0)
+  google_id     String?    @db.VarChar(255)
+  face_app_id   String?    @db.VarChar(255)
+  avatar        String?    @db.VarChar(255)
+  role_id       Int        @default(2)
+  refresh_token String?    @db.VarChar(255)
+  bookings      bookings[]
+  comments      comments[]
+  roles         roles      @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction, map: "users_ibfk_1")
+
+  @@index([role_id], map: "role_id")
+}
+
+model permissions {
+  permission_id    Int                @id @default(autoincrement())
+  name             String             @db.VarChar(255)
+  endpoint         String             @db.VarChar(255)
+  method           String             @db.VarChar(255)
+  module           String             @db.VarChar(255)
+  created_at       DateTime?          @default(now()) @db.Timestamp(0)
+  updated_at       DateTime?          @default(now()) @db.Timestamp(0)
+  role_permissions role_permissions[]
+}
+
+model role_permissions {
+  role_permission_id Int         @id @default(autoincrement())
+  permission_id      Int
+  role_id            Int
+  is_active          Boolean?
+  created_at         DateTime?   @default(now()) @db.Timestamp(0)
+  updated_at         DateTime?   @default(now()) @db.Timestamp(0)
+  roles              roles       @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction, map: "role_permission_idfk2")
+  permissions        permissions @relation(fields: [permission_id], references: [permission_id], onDelete: NoAction, onUpdate: NoAction, map: "role_permssion_ibfk1")
+
+  @@index([role_id], map: "role_permission_idfk2")
+  @@index([permission_id], map: "role_permssion_ibfk1")
+}
+
+model roles {
+  role_id          Int                @id @default(autoincrement())
+  name             String?            @db.VarChar(255)
+  decripsion       String?            @db.VarChar(255)
+  is_active        Boolean?
+  created_at       DateTime?          @default(now()) @db.Timestamp(0)
+  updated_at       DateTime?          @default(now()) @db.Timestamp(0)
+  role_permissions role_permissions[]
+  users            users[]
+}
