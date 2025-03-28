@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class LocationService {
@@ -36,6 +37,18 @@ export class LocationService {
   }
 
   async update(id: number, updateLocationDto: UpdateLocationDto) {
+    const data: Prisma.locationsUpdateInput = {};
+    if (updateLocationDto.name_location)
+      data.name_location = updateLocationDto.name_location;
+    if (updateLocationDto.province) data.province = updateLocationDto.province;
+    if (updateLocationDto.nation) data.nation = updateLocationDto.nation;
+    if (updateLocationDto.image_location)
+      data.image_location = updateLocationDto.image_location;
+
+    Object.keys(data).forEach((key) => {
+      if (data[key] === undefined) delete data[key];
+    });
+
     const locationExist = await this.prisma.locations.findUnique({
       where: {
         location_id: id,
@@ -45,7 +58,7 @@ export class LocationService {
       throw new BadRequestException('Locations does not exist');
     return await this.prisma.locations.update({
       where: { location_id: id },
-      data: updateLocationDto,
+      data: data,
     });
   }
 

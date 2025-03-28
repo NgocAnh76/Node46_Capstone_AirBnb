@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, Query } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class CommentsService {
@@ -60,9 +61,22 @@ export class CommentsService {
     });
     if (!commentExist) throw new BadRequestException('Comment does not exist');
 
+    const data: Prisma.commentsUpdateInput = {};
+    if (updateCommentDto.room_id)
+      data.rooms = { connect: { room_id: updateCommentDto.room_id } };
+    if (updateCommentDto.user_id)
+      data.users = { connect: { user_id: updateCommentDto.user_id } };
+    if (updateCommentDto.content) data.content = updateCommentDto.content;
+    if (updateCommentDto.star_comment)
+      data.star_comment = updateCommentDto.star_comment;
+
+    Object.keys(data).forEach((key) => {
+      if (data[key] === undefined) delete data[key];
+    });
+
     const newComment = await this.prisma.comments.update({
       where: { comment_id: id },
-      data: updateCommentDto,
+      data: data,
     });
     return newComment;
   }

@@ -43,8 +43,8 @@ export class BookingController {
 
   @Get('user/:id')
   @SkipPermission()
-  findByName(@Param('id') id: string) {
-    return this.bookingService.findByName(+id);
+  findByNameId(@Param('id') id: string) {
+    return this.bookingService.findByNameId(+id);
   }
   @Put(':id')
   @SkipPermission()

@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class BookingService {
@@ -51,7 +52,7 @@ export class BookingService {
     return bookings;
   }
 
-  async findByName(id: number) {
+  async findByNameId(id: number) {
     const userExist = await this.prisma.users.findUnique({
       where: { user_id: id },
     });
@@ -64,6 +65,25 @@ export class BookingService {
     return bookings;
   }
   async update(id: number, updateBookingDto: UpdateBookingDto) {
+    const data: Prisma.bookingsUpdateInput = {};
+    if (updateBookingDto.room_id)
+      data.rooms = {
+        connect: { room_id: updateBookingDto.room_id },
+      };
+    if (updateBookingDto.user_id)
+      data.users = {
+        connect: { user_id: updateBookingDto.user_id },
+      };
+    if (updateBookingDto.number_guests)
+      data.number_guests = updateBookingDto.number_guests;
+    if (updateBookingDto.arrival_date)
+      data.arrival_date = updateBookingDto.arrival_date;
+    if (updateBookingDto.departure_date)
+      data.departure_date = updateBookingDto.departure_date;
+
+    Object.keys(data).forEach((key) => {
+      if (data[key] === undefined) delete data[key];
+    });
     const bookingExist = await this.prisma.bookings.findUnique({
       where: { booking_id: id },
     });
@@ -72,7 +92,7 @@ export class BookingService {
 
     return await this.prisma.bookings.update({
       where: { booking_id: id },
-      data: updateBookingDto,
+      data: data,
     });
   }
 

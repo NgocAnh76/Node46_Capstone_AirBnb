@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class RoomService {
@@ -63,13 +64,42 @@ export class RoomService {
   }
 
   async update(id: number, updateRoomDto: UpdateRoomDto) {
+    const data: Prisma.roomsUpdateInput = {};
+    if (updateRoomDto.room_name) data.room_name = updateRoomDto.room_name;
+    if (updateRoomDto.living_room) data.living_room = updateRoomDto.living_room;
+    if (updateRoomDto.bedroom) data.bedroom = updateRoomDto.bedroom;
+    if (updateRoomDto.bed) data.bed = updateRoomDto.bed;
+    if (updateRoomDto.bathroom) data.bathroom = updateRoomDto.bathroom;
+    if (updateRoomDto.price) data.price = updateRoomDto.price;
+    if (updateRoomDto.description) data.description = updateRoomDto.description;
+    if (updateRoomDto.washing_machine)
+      data.washing_machine = updateRoomDto.washing_machine;
+    if (updateRoomDto.iron) data.iron = updateRoomDto.iron;
+    if (updateRoomDto.television) data.television = updateRoomDto.television;
+    if (updateRoomDto.air_conditioner)
+      data.air_conditioner = updateRoomDto.air_conditioner;
+    if (updateRoomDto.wifi) data.wifi = updateRoomDto.wifi;
+    if (updateRoomDto.parking) data.parking = updateRoomDto.parking;
+    if (updateRoomDto.pool) data.pool = updateRoomDto.pool;
+    if (updateRoomDto.kitchen) data.kitchen = updateRoomDto.kitchen;
+    if (updateRoomDto.image) data.image = updateRoomDto.image;
+    if (updateRoomDto.location_id)
+      data.locations = {
+        connect: { location_id: updateRoomDto.location_id },
+      };
+    if (updateRoomDto.address) data.address = updateRoomDto.address;
+
+    Object.keys(data).forEach((key) => {
+      if (data[key] === undefined) delete data[key];
+    });
+
     const roomExist = await this.prisma.rooms.findUnique({
       where: { room_id: id },
     });
     if (roomExist) {
       const newRoom = await this.prisma.rooms.update({
         where: { room_id: id },
-        data: updateRoomDto,
+        data: data,
       });
       return newRoom;
     }

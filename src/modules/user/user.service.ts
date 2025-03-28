@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { v2 as cloudinary } from 'cloudinary';
+import { Prisma } from '@prisma/client';
 @Injectable()
 export class UserService {
   constructor(public prisma: PrismaService) {}
@@ -41,7 +42,6 @@ export class UserService {
       where: { user_id: id },
     });
     if (!users) throw new BadRequestException('Users does not exist');
-    return omit(users, [`pass_word`]);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -50,15 +50,49 @@ export class UserService {
     });
     if (!users) throw new BadRequestException('Users does not exist');
 
-    const passHash = bcrypt.hashSync(updateUserDto.pass_word, 10);
+    const data: Prisma.usersUpdateInput = {};
+    if (updateUserDto.full_name) {
+      data.full_name = updateUserDto.full_name;
+    }
+    if (updateUserDto.email) {
+      data.email = updateUserDto.email;
+    }
+    if (updateUserDto.pass_word) {
+      data.pass_word = bcrypt.hashSync(updateUserDto.pass_word, 10);
+    }
+    if (updateUserDto.phone) {
+      data.phone = updateUserDto.phone;
+    }
+    if (updateUserDto.birth_day) {
+      data.birth_day = updateUserDto.birth_day;
+    }
+    if (updateUserDto.gender) {
+      data.gender = updateUserDto.gender;
+    }
+    if (
+      updateUserDto.role_id !== undefined &&
+      [1, 2].includes(updateUserDto.role_id)
+    ) {
+      data.roles = {
+        connect: { role_id: updateUserDto.role_id },
+      };
+    } else if (updateUserDto.role_id !== undefined) {
+      throw new BadRequestException('Role id does not exist,please try again ');
+    }
+    if (updateUserDto.avatar) {
+      data.avatar = updateUserDto.avatar;
+    }
+
+    // Clear all properties `undefined`
+    Object.keys(data).forEach((key) => {
+      if (data[key] === undefined) delete data[key];
+    });
+
     const userNew = await this.prisma.users.update({
       where: { user_id: id },
-      data: {
-        ...updateUserDto,
-        pass_word: passHash,
-      },
+      data: data,
     });
-    return userNew;
+    return omit(userNew, [`pass_word`]);
   }
 
   async remove(id: number) {
@@ -78,7 +112,7 @@ export class UserService {
     }
 
     const userId = payload.user.user_id;
-    // Configuration
+
     cloudinary.config({
       cloud_name: 'nguyenngocanh',
       api_key: '782482279377515',
@@ -94,7 +128,6 @@ export class UserService {
     });
     console.log({ uploadResult });
 
-    //  lưu vào db
     await this.prisma.users.update({
       where: {
         user_id: Number(userId),
@@ -103,8 +136,6 @@ export class UserService {
         avatar: uploadResult.secure_url,
       },
     });
-
-    // Để đổi tên được cần đổi cloud_name `https://res.cloudinary.com/<Tên của bạn >/image/upload/`
 
     return {
       folder: uploadResult?.asset_folder,
