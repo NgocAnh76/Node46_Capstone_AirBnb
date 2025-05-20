@@ -51,6 +51,9 @@ export class CommentsService {
 
     const comment = await this.prisma.comments.findMany({
       where: { room_id: id },
+      include: {
+        users: { select: { user_id: true, full_name: true, avatar: true } },
+      },
     });
     return comment;
   }

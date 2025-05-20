@@ -55,7 +55,7 @@ model rooms {
   bedroom         Int
   bed             Int
   bathroom        Int
-  description     String?    @db.VarChar(255)
+  description     String?    @db.Text
   price           Int
   washing_machine Boolean    @default(false)
   iron            Boolean    @default(false)
@@ -65,7 +65,7 @@ model rooms {
   kitchen         Boolean    @default(false)
   parking         Boolean    @default(false)
   pool            Boolean    @default(false)
-  image           String     @db.VarChar(255)
+  image           String     @db.Text
   created_at      DateTime?  @default(now()) @db.Timestamp(0)
   updated_at      DateTime?  @default(now()) @db.Timestamp(0)
   location_id     Int

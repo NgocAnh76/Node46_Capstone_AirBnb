@@ -39,6 +39,7 @@ export class CommentsController {
   }
 
   @Get(':id')
+  @Public()
   @ResponseSuccess('Get comment successfully')
   findOne(@Param('id') id: string) {
     return this.commentsService.findOne(+id);

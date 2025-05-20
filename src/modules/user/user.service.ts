@@ -34,7 +34,7 @@ export class UserService {
 
   async findAll() {
     const listUser = await this.prisma.users.findMany();
-    return listUser.map((user) => omit(user, [`pass_word`]));
+    return listUser;
   }
 
   async findOne(id: number) {
@@ -42,51 +42,47 @@ export class UserService {
       where: { user_id: id },
     });
     if (!users) throw new BadRequestException('Users does not exist');
+    return omit(users, [`pass_word`]);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
+    if (!updateUserDto) {
+      throw new BadRequestException('Update data is required');
+    }
+
     const users = await this.prisma.users.findUnique({
       where: { user_id: id },
     });
     if (!users) throw new BadRequestException('Users does not exist');
 
     const data: Prisma.usersUpdateInput = {};
-    if (updateUserDto.full_name) {
-      data.full_name = updateUserDto.full_name;
-    }
-    if (updateUserDto.email) {
-      data.email = updateUserDto.email;
-    }
-    if (updateUserDto.pass_word) {
-      data.pass_word = bcrypt.hashSync(updateUserDto.pass_word, 10);
-    }
-    if (updateUserDto.phone) {
-      data.phone = updateUserDto.phone;
-    }
-    if (updateUserDto.birth_day) {
-      data.birth_day = updateUserDto.birth_day;
-    }
-    if (updateUserDto.gender) {
-      data.gender = updateUserDto.gender;
-    }
-    if (
-      updateUserDto.role_id !== undefined &&
-      [1, 2].includes(updateUserDto.role_id)
-    ) {
-      data.roles = {
-        connect: { role_id: updateUserDto.role_id },
-      };
-    } else if (updateUserDto.role_id !== undefined) {
-      throw new BadRequestException('Role id does not exist,please try again ');
-    }
-    if (updateUserDto.avatar) {
-      data.avatar = updateUserDto.avatar;
-    }
 
-    // Clear all properties `undefined`
-    Object.keys(data).forEach((key) => {
-      if (data[key] === undefined) delete data[key];
+    // Only update fields that are explicitly provided and not null
+    Object.keys(updateUserDto).forEach((key) => {
+      const value = updateUserDto[key];
+      if (value !== undefined && value !== null) {
+        if (key === 'pass_word') {
+          data[key] = bcrypt.hashSync(value, 10);
+        } else if (key === 'role_id') {
+          if ([1, 2].includes(value)) {
+            data.roles = {
+              connect: { role_id: value },
+            };
+          } else {
+            throw new BadRequestException(
+              'Role id does not exist, please try again',
+            );
+          }
+        } else {
+          data[key] = value;
+        }
+      }
     });
+
+    // If no fields to update, return current user data
+    if (Object.keys(data).length === 0) {
+      return omit(users, ['pass_word']);
+    }
 
     const userNew = await this.prisma.users.update({
       where: { user_id: id },

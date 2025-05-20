@@ -1,24 +1,23 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
   Put,
+  Req,
   UploadedFile,
   UseInterceptors,
-  Req,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
-import { FileUploadDto } from './dto/file-upload.dto';
 import { ResponseSuccess } from 'src/common/decorators/response.success.decorator';
 import { SkipPermission } from 'src/common/decorators/skip-permission.decorator';
+import { CreateUserDto } from './dto/create-user.dto';
+import { FileUploadDto } from './dto/file-upload.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserService } from './user.service';
 
 @Controller('user')
 @ApiBearerAuth()
@@ -38,12 +37,14 @@ export class UserController {
   }
 
   @Get(':id')
+  @SkipPermission()
   @ResponseSuccess('Get User Successfully')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
 
   @Put(':id')
+  @SkipPermission()
   @ResponseSuccess('Update User Successfully')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);

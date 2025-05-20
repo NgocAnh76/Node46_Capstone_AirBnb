@@ -18,7 +18,11 @@ async function bootstrap() {
 
   // cors
   app.enableCors({
-    origin: ['http://localhost:5173', `https://google.com`],
+    origin: [
+      'http://localhost:5173',
+      `https://google.com`,
+      'http://localhost:3000',
+    ],
   });
 
   // swagger
