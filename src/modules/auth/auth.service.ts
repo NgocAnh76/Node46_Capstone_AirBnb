@@ -4,26 +4,21 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-import { PrismaService } from '../prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { omit } from 'lodash';
-import { JwtService } from '@nestjs/jwt';
-import {
-  ACCESS_TOKEN_EXPIRED,
-  ACCESS_TOKEN_SECRET,
-  REFRESH_TOKEN_EXPIRED,
-  REFRESH_TOKEN_SECRET,
-} from 'src/common/constant/app.constant';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateAuthDto } from './dto/create-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     public prisma: PrismaService,
     public jwt: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async register(createAuthDto: CreateAuthDto) {
@@ -49,6 +44,7 @@ export class AuthService {
 
     return omit(userNew, ['pass_word']);
   }
+
   async login(loginAuthDto: LoginAuthDto) {
     const { email, pass_word } = loginAuthDto;
 
@@ -82,6 +78,7 @@ export class AuthService {
       token,
     };
   }
+
   async refreshToken(refreshTokenDto: RefreshTokenDto) {
     const { id, refreshToken } = refreshTokenDto;
     const user = await this.prisma.users.findUnique({
@@ -99,18 +96,35 @@ export class AuthService {
         'No userID to generate token, please provide userID',
       );
 
+    const accessTokenSecret = this.configService.get<string>(
+      'ACCESS_TOKEN_SECRET',
+    );
+    const accessTokenExpired = this.configService.get<string>(
+      'ACCESS_TOKEN_EXPIRED',
+    );
+    const refreshTokenSecret = this.configService.get<string>(
+      'REFRESH_TOKEN_SECRET',
+    );
+    const refreshTokenExpired = this.configService.get<string>(
+      'REFRESH_TOKEN_EXPIRED',
+    );
+
+    if (!accessTokenSecret || !refreshTokenSecret) {
+      throw new InternalServerErrorException('JWT secrets are not configured');
+    }
+
     const accessToken = this.jwt.sign(
       { userId: userId },
       {
-        expiresIn: ACCESS_TOKEN_EXPIRED,
-        secret: ACCESS_TOKEN_SECRET,
+        expiresIn: accessTokenExpired,
+        secret: accessTokenSecret,
       },
     );
     const refreshToken = this.jwt.sign(
       { userId: userId },
       {
-        expiresIn: REFRESH_TOKEN_EXPIRED,
-        secret: REFRESH_TOKEN_SECRET,
+        expiresIn: refreshTokenExpired,
+        secret: refreshTokenSecret,
       },
     );
     try {
