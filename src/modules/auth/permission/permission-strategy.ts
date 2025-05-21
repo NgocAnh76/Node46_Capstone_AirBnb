@@ -1,7 +1,6 @@
-import { Strategy } from 'passport-custom';
-import { PassportStrategy } from '@nestjs/passport';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ACCESS_TOKEN_SECRET } from 'src/common/constant/app.constant';
+import { PassportStrategy } from '@nestjs/passport';
+import { Strategy } from 'passport-custom';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
 @Injectable()
