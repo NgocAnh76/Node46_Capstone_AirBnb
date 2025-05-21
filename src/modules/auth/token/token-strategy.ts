@@ -1,19 +1,27 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
-import { ACCESS_TOKEN_SECRET } from 'src/common/constant/app.constant';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CheckTokenStrategy extends PassportStrategy(
   Strategy,
   'check-token',
 ) {
-  constructor(public prisma: PrismaService) {
+  constructor(
+    public prisma: PrismaService,
+    private configService: ConfigService,
+  ) {
+    const secret = configService.get<string>('ACCESS_TOKEN_SECRET');
+    if (!secret) {
+      throw new UnauthorizedException('JWT secret is not configured');
+    }
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: ACCESS_TOKEN_SECRET as string,
+      secretOrKey: secret,
     });
   }
 

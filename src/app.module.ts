@@ -14,7 +14,10 @@ import { CheckPermissionStrategy } from './modules/auth/permission/permission-st
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     AuthModule,
     RoomModule,
     CommentsModule,
