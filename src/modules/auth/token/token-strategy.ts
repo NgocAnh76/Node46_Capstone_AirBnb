@@ -14,7 +14,10 @@ export class CheckTokenStrategy extends PassportStrategy(
     private configService: ConfigService,
   ) {
     const secret = configService.get<string>('ACCESS_TOKEN_SECRET');
+    console.log('JWT Secret:', secret); // Debug log
+
     if (!secret) {
+      console.error('JWT Secret is missing in environment variables');
       throw new UnauthorizedException('JWT secret is not configured');
     }
 
