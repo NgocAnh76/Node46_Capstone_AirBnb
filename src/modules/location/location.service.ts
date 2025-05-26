@@ -14,7 +14,8 @@ export class LocationService {
         province: createLocationDto.province,
       },
     });
-    if (locationExist) throw new BadRequestException('Locations does not exit');
+    if (locationExist)
+      throw new BadRequestException('This location already exists');
 
     const newLocation = await this.prisma.locations.create({
       data: createLocationDto,

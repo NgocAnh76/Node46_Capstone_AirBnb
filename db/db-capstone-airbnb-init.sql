@@ -1,0 +1,433 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: some-mysql-46
+-- Generation Time: May 26, 2025 at 09:56 AM
+-- Server version: 9.1.0
+-- PHP Version: 8.2.27
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `db-capstone-airbnb`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookings`
+--
+
+CREATE TABLE `bookings` (
+  `booking_id` int NOT NULL,
+  `room_id` int NOT NULL,
+  `arrival_date` datetime NOT NULL,
+  `departure_date` datetime NOT NULL,
+  `number_guests` int NOT NULL,
+  `user_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`booking_id`, `room_id`, `arrival_date`, `departure_date`, `number_guests`, `user_id`, `created_at`, `updated_at`) VALUES
+(11, 6, '2025-05-30 17:00:00', '2025-06-03 17:00:00', 2, 31, '2025-05-26 09:06:12', '2025-05-26 09:06:12'),
+(12, 22, '2025-05-28 17:00:00', '2025-06-01 17:00:00', 3, 31, '2025-05-26 09:28:21', '2025-05-26 09:28:21'),
+(13, 13, '2025-06-03 17:00:00', '2025-06-06 17:00:00', 2, 31, '2025-05-26 09:32:48', '2025-05-26 09:32:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE `comments` (
+  `comment_id` int NOT NULL,
+  `room_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `date_comment` datetime DEFAULT CURRENT_TIMESTAMP,
+  `content` varchar(255) DEFAULT NULL,
+  `star_comment` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`comment_id`, `room_id`, `user_id`, `date_comment`, `content`, `star_comment`) VALUES
+(1, 7, 7, '2025-05-15 15:28:53', 'verry good', 5),
+(2, 7, 8, '2025-05-15 15:28:53', 'beatyfull ', 5),
+(3, 7, 10, '2025-05-15 15:28:53', 'I am very satisfied', 5),
+(4, 7, 9, '2025-05-15 17:46:31', 'Feel satisfied', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `locations`
+--
+
+CREATE TABLE `locations` (
+  `location_id` int NOT NULL,
+  `name_location` varchar(255) NOT NULL,
+  `province` varchar(255) NOT NULL,
+  `nation` int NOT NULL,
+  `image_location` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `locations`
+--
+
+INSERT INTO `locations` (`location_id`, `name_location`, `province`, `nation`, `image_location`, `created_at`, `updated_at`) VALUES
+(1, 'New York', 'New York', 1, 'https://gotrip-appdir.vercel.app/_next/image?url=%2Fimg%2Fdestinations%2F1%2F1.png&w=384&q=75', '2025-01-03 15:04:34', '2025-01-03 15:04:34'),
+(2, 'London', 'London', 44, 'https://gotrip-appdir.vercel.app/_next/image?url=%2Fimg%2Fdestinations%2F1%2F2.png&w=384&q=75', '2025-01-03 15:04:34', '2025-01-03 15:04:34'),
+(3, 'Barcelona', 'Barcelona', 34, 'https://gotrip-appdir.vercel.app/_next/image?url=%2Fimg%2Fdestinations%2F1%2F3.png&w=384&q=75', '2025-01-03 15:04:34', '2025-01-03 15:04:34'),
+(4, 'Roma', 'Roma', 39, 'https://gotrip-appdir.vercel.app/_next/image?url=%2Fimg%2Fdestinations%2F1%2F5.png&w=384&q=75', '2025-01-03 15:04:34', '2025-01-03 15:04:34'),
+(5, 'Sydney', 'New South Wales', 61, 'https://gotrip-appdir.vercel.app/_next/image?url=%2Fimg%2Fdestinations%2F1%2F4.png&w=384&q=75', '2025-01-03 15:04:34', '2025-01-03 15:04:34'),
+(6, 'Đà Lạt', 'Lâm Đồng', 84, 'https://nld.mediacdn.vn/291774122806476800/2024/12/8/anh-11-nguyen-tat-thang-3-17336232087871905002186.jpg', '2025-05-23 08:43:35', '2025-05-23 08:43:35'),
+(7, 'Hồ Chí Minh', 'Hồ Chí Minh', 84, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WbY0hP9klr6R3n6DxvIISw2veARaEto-5g&s', '2025-01-03 15:04:34', '2025-03-12 09:26:23'),
+(8, 'Thủ Đô Hà Nội', 'Hà Nội', 84, 'https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/04/anh-ha-noi.jpg', '2025-01-03 15:04:34', '2025-01-03 15:04:34'),
+(9, 'Đà Nẵng', 'Đà Nẵng', 84, 'https://vietnamdailytour.vn/wp-content/uploads/2022/08/cau-rong-da-nang.jpg', '2025-01-03 15:04:34', '2025-05-14 18:07:13'),
+(10, 'Lý Sơn', 'Quảng Ngãi', 84, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSghoDEU6xgQlnhfJZ7AR3F7yYu-AOnLBP8Zg&s', '2025-01-03 15:04:34', '2025-05-14 18:07:13'),
+(11, 'TP.Nha Trang', 'Nha Trang', 84, 'https://q-xx.bstatic.com/xdata/images/city/170x136/688907.jpg?k=8a219233969467d9f7ff828918cce2a53b4db6f1da1039d27222441ffb97c409&o=', '2025-03-10 18:15:02', '2025-03-10 18:15:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `permissions`
+--
+
+CREATE TABLE `permissions` (
+  `permission_id` int NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `endpoint` varchar(255) NOT NULL,
+  `method` varchar(255) NOT NULL,
+  `module` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `permissions`
+--
+
+INSERT INTO `permissions` (`permission_id`, `name`, `endpoint`, `method`, `module`, `created_at`, `updated_at`) VALUES
+(1, 'LOGIN', '/auth/login', 'POST', 'auth', '2025-01-03 15:04:34', '2025-01-03 15:04:34'),
+(2, 'REGISTER', '/auth/register', 'POST', 'auth', '2025-01-03 15:04:34', '2025-01-03 15:04:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `role_id` int NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `decripsion` varchar(255) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`role_id`, `name`, `decripsion`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'ROLE_ADMIN', 'system administrator', 1, '2025-01-03 15:04:34', '2025-01-03 15:04:34'),
+(2, 'ROLE_USER', 'system user', 2, '2025-01-03 15:04:34', '2025-01-03 15:04:34'),
+(3, NULL, NULL, NULL, '2025-05-19 20:41:44', '2025-05-19 20:41:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_permissions`
+--
+
+CREATE TABLE `role_permissions` (
+  `role_permission_id` int NOT NULL,
+  `permission_id` int NOT NULL,
+  `role_id` int NOT NULL,
+  `is_active` tinyint(1) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `role_permissions`
+--
+
+INSERT INTO `role_permissions` (`role_permission_id`, `permission_id`, `role_id`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, 1, '2025-01-03 15:04:34', '2025-01-03 15:04:34'),
+(2, 2, 2, 1, '2025-01-03 15:04:34', '2025-01-03 15:04:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rooms`
+--
+
+CREATE TABLE `rooms` (
+  `room_id` int NOT NULL,
+  `room_name` varchar(255) NOT NULL,
+  `living_room` int NOT NULL,
+  `bedroom` int NOT NULL,
+  `bed` int NOT NULL,
+  `bathroom` int NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `price` int NOT NULL,
+  `washing_machine` tinyint(1) NOT NULL DEFAULT '0',
+  `iron` tinyint(1) NOT NULL DEFAULT '0',
+  `television` tinyint(1) NOT NULL DEFAULT '0',
+  `air_conditioner` tinyint(1) NOT NULL DEFAULT '0',
+  `wifi` tinyint(1) NOT NULL DEFAULT '0',
+  `kitchen` tinyint(1) NOT NULL DEFAULT '0',
+  `parking` tinyint(1) NOT NULL DEFAULT '0',
+  `pool` tinyint(1) NOT NULL DEFAULT '0',
+  `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `location_id` int NOT NULL,
+  `address` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `rooms`
+--
+
+INSERT INTO `rooms` (`room_id`, `room_name`, `living_room`, `bedroom`, `bed`, `bathroom`, `description`, `price`, `washing_machine`, `iron`, `television`, `air_conditioner`, `wifi`, `kitchen`, `parking`, `pool`, `image`, `created_at`, `updated_at`, `location_id`, `address`) VALUES
+(1, 'Santori Hotel Da Nang Bay', 1, 2, 2, 1, ' Santori Hotel Da Nang Bay in Da Nang offers a private beach area and direct beachfront access. Guests enjoy stunning sea views and a sun terrace, perfect for relaxation.Located 4 km from Da Nang International Airport, the hotel is steps from Thanh Binh Beach and close to attractions like Cham Museum and Marble Mountains.', 65000, 1, 1, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/222463008.jpg?k=7ed07544673e44438d4567e557348ab0e2125c244374b8b60f42fe8aece05c23&o=&hp=1,https://cf.bstatic.com/xdata/images/hotel/max1024x768/222463163.jpg?k=f83ce1f33337f03320844b2059bca3c9eaf10ce69f6d1b404fa4ad4db4702dff&o=&hp=1,https://cf.bstatic.com/xdata/images/hotel/max1024x768/426454599.jpg?k=55296b49e4a730b8dc1dd8f3c63e7166f98ed931467650e0bfd5bfada88e3d9a&o=&hp=1,https://cf.bstatic.com/xdata/images/hotel/max1024x768/163687181.jpg?k=7f2605a0e8aaaef508bcff49bb21cc0a1dd69fef648192881d804cb58a75752d&o=&hp=1,https://cf.bstatic.com/xdata/images/hotel/max1024x768/208634495.jpg?k=c6710c3973cc21bdb0bd84b0e090c50f5326bb36fb21e16fee073e4b90a5f00e&o=&hp=1,https://cf.bstatic.com/xdata/images/hotel/max1024x768/163688397.jpg?k=6f303bc34fd3ab190837b9678c50e5ab340e786d44095a506c225129984c0e4b&o=&hp=1', '2025-03-12 18:16:49', '2025-03-12 18:16:49', 9, '769 Nguyen Tat Thanh'),
+(2, 'Da Nang ELC Hotel', 1, 1, 1, 1, 'Da Nang ELC Hotel in Da Nang offers direct beachfront access with stunning sea views. Guests can relax on the sandy shores or enjoy the inviting waters.Bac My An Beach is a 4-minute walk away, while attractions like Love Lock Bridge and Cham Museum are within 5 km. Da Nang International Airport is 8 km from the hotel.Breakfast options include American, buffet, and Asian styles with local specialities, warm dishes, fresh pastries, and more.', 595000, 0, 1, 0, 1, 1, 1, 1, 0, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/650656352.jpg?k=d9ade5944eb0f14a33c951da6460a7d4b3d5e590602c02df382f518d42e5a8ca&o=,https://cf.bstatic.com/xdata/images/hotel/max500/650656354.jpg?k=dc39b19fdd560b1a93e435c88e196c3f7584bf637480775dcb8a5637edd7d462&o=,https://cf.bstatic.com/xdata/images/hotel/max300/650656657.jpg?k=e9d5eaf20fc43bf94dd734eed90744d6cff033f90b3df70d6d974b5f0ae86a9b&o=,https://cf.bstatic.com/xdata/images/hotel/max300/650656606.jpg?k=82b76fb5f7f3f4f613d7db11504a2b8e966cda1ea110f5666615d237840337a5&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/650656350.jpg?k=0c7b71aa7c853c277038a0f592ab369856866031fed185b571455a6e94c9a073&o=&hp=1,https://cf.bstatic.com/xdata/images/hotel/max1024x768/649107316.jpg?k=a4c86da021eeea5dde91a1da19a29764f1ad22466b517cafbd4c2aed11ef38b7&o=&hp=1', '2025-03-12 18:25:44', '2025-03-12 18:25:44', 9, '426 Võ Nguyên Giáp'),
+(3, 'TGT BEACH HOTEL', 1, 1, 1, 1, ' Located 5 km from Da Nang International Airport, the hotel is a short walk from My Khe Beach and close to attractions such as Cham Museum and Indochina Riverside Mall. Guests appreciate the beach access, convenient location, and attentive staff. The family-friendly restaurant serves American cuisine with vegetarian options. Breakfast includes warm dishes, fresh pastries, fruits, and juice. Dining areas offer traditional, modern, and romantic ambiances. Rooms feature air-conditioning, private bathrooms, and modern amenities. Additional facilities include a minimarket, hairdresser, and family rooms, ensuring a pleasant stay for all visitors.', 375000, 0, 1, 1, 1, 1, 0, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/524405904.jpg?k=5db4ac93d28f439d2b6b9e7a5a78277ff9b1a6f7c710fbece6ff4871af3af9a1&o=,https://cf.bstatic.com/xdata/images/hotel/max500/524405897.jpg?k=f6cadf199bb09d35694800f156c6d5a6a94b96e30f3b3e767a2e6a50aceb5eae&o=,https://cf.bstatic.com/xdata/images/hotel/max500/601813147.jpg?k=d6a379eac9bf12c7241cd0141fb2de1bee1c3db875e595d31ab14c59963ee709&o=,https://cf.bstatic.com/xdata/images/hotel/max300/601809172.jpg?k=35ad5d5d54e468e2c8c09199bbc217e3ccaeb448463707c3929bc344b4375309&o=,https://cf.bstatic.com/xdata/images/hotel/max300/601808023.jpg?k=6354bba301b9ea36fb8e3170cea83a25a0881de7bc75572f577c3b51daf5809f&o=,https://cf.bstatic.com/xdata/images/hotel/max300/588872063.jpg?k=81662fefeecf7ca3cac02df2a5fda7cbc770e861bbf39ba6bbefd9447ef2df42&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/529968797.jpg?k=0a6cbec1d143e8ece7c573a732bd577599d2b24a89772675ab6cc4a1600562cf&o=&hp=1', '2025-03-12 18:25:44', '2025-03-12 18:25:44', 9, '19 Duong Dinh Nghe,'),
+(4, 'Beach View Home Mỹ Khê Đà Nẵng', 1, 2, 2, 1, 'Beach View Home Mỹ Khê Đà Nẵng in Da Nang offers direct beachfront access and stunning sea views. Guests can relax on the sun terrace or enjoy the outdoor seating area.The apartment features two bedrooms, two bathrooms, and a spacious living room. Each unit includes air-conditioning, a balcony, and a fully equipped kitchenette.Located a few steps from My Khe Beach and a 14-minute walk to Bac My An Beach, the property is 7 km from Da Nang International Airport. Nearby attractions include Love Lock Bridge and Cham Museum.', 1397000, 1, 1, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/585828847.jpg?k=6c23495ffb064409c6e34f8c039ae2d0ca72708a367e4264272f359e0cc8efdd&o=,https://cf.bstatic.com/xdata/images/hotel/max500/585828835.jpg?k=4521ecc675f92fde47fdc70c83798938e4ae912b95569b416696e3cbaa8fe234&o=,https://cf.bstatic.com/xdata/images/hotel/max500/585828846.jpg?k=622ffc1d473e93e621820598d5c798e816184e18b90d7ed0bff9c60bc346ec52&o=,https://cf.bstatic.com/xdata/images/hotel/max300/585828828.jpg?k=278883796ebbf925acb7059ef3975ffbda91b4c8712feb39dc5ad657fb51ed06&o=,https://cf.bstatic.com/xdata/images/hotel/max300/585828844.jpg?k=d65732dcfe87c8d0b8128e346d499ea243bccd86eb3e8da021d4b87efd97cc33&o=,https://cf.bstatic.com/xdata/images/hotel/max300/585829088.jpg?k=d5a63fe2adc83e5256cd7601dde5f660adc9c0a70ad7e8f1bb63ef902cf7faca&o=,https://cf.bstatic.com/xdata/images/hotel/max300/585828838.jpg?k=e171e39cfbf29b58031930f260585c483436c93fc32a4e6826891f614a1d7ee7&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/585828825.jpg?k=2ad0f331b3b49498a05f92103bde5c741a57982b647f1b5f541ab99a42778339&o=&hp=1', '2025-03-12 18:34:44', '2025-03-12 18:34:44', 9, '270 Võ Nguyên Giáp'),
+(5, 'Aurora Central Hanoi Hotel', 1, 1, 1, 1, ' Guests can enjoy spa facilities, a sauna, and a hot tub. The hotel features a restaurant, bar, and coffee shop, providing diverse dining options. Additional services include a kids club, fitness centre, and tour desk.Located in the city centre, the hotel is a few steps from Hanoi Old City Gate and less than 1 km from Thang Long Water Puppet Theater. Nearby attractions include Hoan Kiem Lake and Hanoi Opera House, each within 2 km.', 1650000, 1, 1, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/625806317.jpg?k=34cbc184cf016d246c460c406fffd43cd32fbc8a7b0582cdb17c8135e8f62002&o=,https://cf.bstatic.com/xdata/images/hotel/max500/625808483.jpg?k=95d8340eaef92a73060176fe158fa958ddebc881066b1442ba9b423f0660c134&o=,https://cf.bstatic.com/xdata/images/hotel/max500/625804548.jpg?k=51f4d23b64eb5adf80639147bb76f6fa6450e226cc5f15d4b48c1881456ca8df&o=,https://cf.bstatic.com/xdata/images/hotel/max300/625806103.jpg?k=aa5f610200f0c1f9c8a702bc66f00403a3799d53584b98de88063a920ac9d72d&o=,https://cf.bstatic.com/xdata/images/hotel/max300/625809481.jpg?k=69164574a20970bd3df19d51fa6fb9953383b92853906295d5c4393104f31bad&o=,https://cf.bstatic.com/xdata/images/hotel/max300/625809614.jpg?k=8e6fcd928dc646aa6dac9d56ee23d0bc113a9c27e32c26584f857e7537ee4a25&o=,https://cf.bstatic.com/xdata/images/hotel/max300/625806117.jpg?k=9d97041d87585501d192a809ad0e3a6d9358789fa611b63f5cb16fa02c2ffe0d&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/625809688.jpg?k=506e2affed419792521a4fa45c29cf28fd32adf1c71630115f7cf9de0f706b29&o=&hp=1', '2025-03-12 18:34:44', '2025-03-12 18:34:44', 8, '53A Phố Hàng Chiếu, Hoan Kiem'),
+(6, 'Awaken Da Nang Hotel', 1, 2, 2, 1, 'Awaken Da Nang Hotel in Da Nang offers direct beachfront access and stunning sea views. My Khe Beach is an 8-minute walk away, while Song Han Bridge and Cham Museum are 4 km from the property.Rooms include air-conditioning, private bathrooms, balconies, and modern amenities. Additional services include a 24-hour front desk, concierge, and free on-site private parking.', 65000, 1, 1, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max500/618113072.jpg?k=c5e72526c16b5979e91170018e76e476f5d0f7b65e25f306d9e48443dfc46d17&o=,https://cf.bstatic.com/xdata/images/hotel/max500/618116886.jpg?k=76f0f8d49390fec36723190979020f6c58153f3a10e546a4d422787d10036b4d&o=,https://cf.bstatic.com/xdata/images/hotel/max300/585548672.jpg?k=9954a09a9b35950dd8c6372e1751ca938592916d24001d25bb9db1bd0cdbbb78&o=,https://cf.bstatic.com/xdata/images/hotel/max300/585548672.jpg?k=9954a09a9b35950dd8c6372e1751ca938592916d24001d25bb9db1bd0cdbbb78&o=,https://cf.bstatic.com/xdata/images/hotel/max300/584618393.jpg?k=cf27a167e172d8ae480111d2a951024c15e3d73510d6fc153464075efba128e4&o=', '2025-03-12 17:58:38', '2025-03-12 18:17:49', 9, '148 Võ Nguyên Giáp, P. Phước Mỹ, Q. Sơn Trà'),
+(7, 'Ja Cosmo Hotel and Spa', 1, 1, 1, 1, 'Located in the city centre, the hotel is less than 1 km from Hoan Kiem Lake and Trang Tien Plaza. Nearby attractions include Thang Long Water Puppet Theater and Hanoi Opera House. Noi Bai International Airport is 24 km away.Guests can unwind at the spa, sun terrace, or hot tub. Additional services include beauty treatments, wellness packages, and a 24-hour front desk.', 1359000, 1, 1, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/567275075.jpg?k=4fec5f10da89082382080b7d3a5b0048bcc6738b5ed44ec9b2d2d05d1a3660ce&o=,https://cf.bstatic.com/xdata/images/hotel/max500/567302056.jpg?k=b24ec959f6db36128b2a12037b9f67637b93dfc082149787e9198de068dfc2f0&o=,https://cf.bstatic.com/xdata/images/hotel/max500/471270953.jpg?k=e9d665ebd573a191e773a1cc51b8a33561904351451d36559f0f0616deb7146b&o=,https://cf.bstatic.com/xdata/images/hotel/max300/567307152.jpg?k=bfc7ef819f469cb7d4098f570e76d4fd371f2de7a087ac7e6a4c635d421fc453&o=,https://cf.bstatic.com/xdata/images/hotel/max300/567307151.jpg?k=7af8bf4fe94002bd0259ecf22df082715c60dc78b3957210796f79b8e82358fe&o=,https://cf.bstatic.com/xdata/images/hotel/max300/471271399.jpg?k=5df2f3ff0cbc8a27936d72c37ece3eefc1605943ac1be8848883cbddbf40aabb&o=,https://cf.bstatic.com/xdata/images/hotel/max300/471278833.jpg?k=346588d3135db8e59dfc177b112f06ff00aec0b29260a1ba8ba04074e29ab1da&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/567303499.jpg?k=606ded2f5f19042b1235814290358e1e8dcfc5fdca027cdcf2bedc6b04863069&o=&hp=1', '2025-03-12 18:41:27', '2025-03-12 18:41:27', 8, '23 Lo Su Street, Hoan Kiem District, Hoan Kiem'),
+(8, 'Luxe Paradise Residence Âu Cơ', 1, 3, 4, 1, 'Located 18 km from Noi Bai International Airport, the apartment is 4 km from West Lake, 5 km from Quan Thanh Temple, and 6 km from Ho Chi Minh Mausoleum and other attractions. Highly rated for its attentive staff and spacious rooms.Guests can enjoy amenities such as a dining table, PS4, refrigerator, work desk, free toiletries, microwave, shower, TV, kitchenware, and stovetop. The property also provides a 24-hour front desk and a range of services.', 1699000, 1, 1, 1, 1, 1, 1, 1, 0, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/630942570.jpg?k=38c4e93fed19df5f80e82a2a8dfa35d55373930399250ae8b96b8bb3d7adf86e&o=,https://cf.bstatic.com/xdata/images/hotel/max500/630937198.jpg?k=eb4a6234898552728d87820867de5c2da06849d1dd65e1a92dd3da4f1650a587&o=,https://cf.bstatic.com/xdata/images/hotel/max500/602477069.jpg?k=5d78d51961d8a360163c31f69511d9d2436f136685e64545812b43c457ce66ae&o=,https://cf.bstatic.com/xdata/images/hotel/max300/569635125.jpg?k=a85b4900890521eccc621267709d17bbea7341bce28c383e9d2459225c538f70&o=,https://cf.bstatic.com/xdata/images/hotel/max300/602477066.jpg?k=d31763b16d6604ee49ad271cec35ae1e04e49b1fa35854cebeb98cec34dd3ab7&o=,https://cf.bstatic.com/xdata/images/hotel/max300/569635119.jpg?k=328c0287c31896dd2c319ea2dbef2cc9a812eb06dd8b2b87dda254e77784a535&o=https://cf.bstatic.com/xdata/images/hotel/max300/569635133.jpg?k=d6d11c4dfcb7d56fb1d146a5da558684ec78c58b077bc010f0f84f69dac51a06&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/569635139.jpg?k=3da82fc8bcbaa7077457c13504a979eff0048c88766ba300628ade7210154553&o=&hp=1', '2025-03-12 18:41:27', '2025-03-12 18:41:27', 8, '13 Ngõ 399 Đường Âu Cơ, Tay Ho,'),
+(9, 'Luxtel Hotel Ngoại Giao Đoàn', 1, 2, 3, 1, 'The modern restaurant serves Vietnamese cuisine for brunch, lunch, and dinner. Guests can relax in the bar or unwind in the hot tub. Additional facilities include a garden, 24-hour front desk, and free on-site private parking.', 599000, 1, 1, 1, 1, 1, 1, 1, 0, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/543166644.jpg?k=3ad9870daa00f165e5791f1561f7578cbee9eef37ac6e05726de80e308a04d70&o=,https://cf.bstatic.com/xdata/images/hotel/max500/543166660.jpg?k=35c7a340f7a1ad2b0d6785d824c7040e4b0a01898c3e67ec7fa9d9b52d088244&o=,https://cf.bstatic.com/xdata/images/hotel/max500/487042595.jpg?k=4ab5de15ef9c245da24a7785c996e321beaf6c20d7dfc0e1fb33c4a911e955aa&o=,https://cf.bstatic.com/xdata/images/hotel/max300/543166650.jpg?k=258e42917b869a41a25e94c1591deffb574e477465b0bbf5ca32322bfe3570c8&o=,https://cf.bstatic.com/xdata/images/hotel/max300/543166653.jpg?k=cdb6f55647f0e31eb067c26799837cb3c34fd7f675abf0948bd17c2c91f15760&o=,https://cf.bstatic.com/xdata/images/hotel/max300/543166663.jpg?k=9070119482163d53e0a48514d2697995be76665a2c089c965a199150e134bcbb&o=,https://cf.bstatic.com/xdata/images/hotel/max300/487042598.jpg?k=0673dd08a2770e20277bbfa270d01c0137a977b4d0f57f72e2c59cdec8b69f74&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/546303200.jpg?k=93e811477910ff061cdd426ac43cf85bc8845723db10df1b6270db88acb85000&o=&hp=1', '2025-03-12 18:45:43', '2025-03-12 18:45:43', 7, '112 Âu Cơ\r\n'),
+(10, 'Dream Premium Hotel & Spa', 1, 1, 1, 1, ' Located 24 km from Noi Bai International Airport, the hotel is a short walk from Ha Noi Railway Station and near attractions such as Hanoi Temple of Literature and Hoan Kiem Lake. An ice-skating rink is also nearby.The hotel serves international cuisine with a buffet breakfast. Additional amenities include a restaurant, bar, lounge, and shared kitchen.', 659000, 1, 1, 1, 1, 1, 1, 1, 0, 'https://cf.bstatic.com/xdata/images/hotel/max500/616241699.jpg?k=8711068d0dfd6486f2f171a2e602abb1846d06769953fcafdce5afb91b7fbb3d&o=,https://cf.bstatic.com/xdata/images/hotel/max500/616240877.jpg?k=3eae2fb197ad93f295dd2c2d11e7fcd6c22c3592924477ef648c7a1fa94fb978&o=,https://cf.bstatic.com/xdata/images/hotel/max300/577544995.jpg?k=7ab973d9ccd4961138a2f3c7e8813383311c0760aebda14904d62fcfc1ac6e44&o=,https://cf.bstatic.com/xdata/images/hotel/max300/577222423.jpg?k=27715ab5b8a821eb17eb5ddae0c469ce6b3a8e95db41d4a16bf111c7a063cd7e&o=,https://cf.bstatic.com/xdata/images/hotel/max300/616243340.jpg?k=7a8c8ffb87a3cbae16c2ea90fcec04c044a4173a8d1a1aed37804d419d0dab54&o=,https://cf.bstatic.com/xdata/images/hotel/max300/612401581.jpg?k=3788976346011fc1b4154f660d322634afbe2f385960959492c98d4971a4ad2e&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/577544995.jpg?k=7ab973d9ccd4961138a2f3c7e8813383311c0760aebda14904d62fcfc1ac6e44&o=&hp=1,https://cf.bstatic.com/xdata/images/hotel/max1024x768/577222408.jpg?k=7083e6b93bafafb779327e3b02e768c737bf104dc6844784f3e5f15d30cfca1a&o=&hp=1', '2025-03-12 18:50:30', '2025-03-12 18:50:30', 8, '30 Phố Cửa Nam, Hoan Kiem,'),
+(11, 'La Vela Saigon Hotel', 1, 2, 3, 1, 'Located 5 km from Tan Son Nhat International Airport, the hotel is an 8-minute walk from Tan Dinh Market and close to attractions like the War Remnants Museum and Reunification Palace. Free on-site private parking is provided.Guests enjoy air-conditioning, private bathrooms, balconies with city views, and modern amenities such as minibars and flat-screen TVs. Additional facilities include a lounge, public bath, steam room, and fitness room.', 3199000, 1, 1, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/464640824.jpg?k=2ce1467d833309a6d9e4f1e5d35ba87454a50bcf620cc5926b410aca8148c219&o=,https://cf.bstatic.com/xdata/images/hotel/max500/588658625.jpg?k=1695cd5b9417bb3d25df988394e26d6cd48eb74dc849713f0e9a9c768dd3351e&o=,https://cf.bstatic.com/xdata/images/hotel/max500/347391949.jpg?k=b0f4e13c8c81de6ef2d541d86d31b2d57b173d1cf77fb7704773efb1a38c0bd8&o=,https://cf.bstatic.com/xdata/images/hotel/max300/325222137.jpg?k=56c624212a1b3f9257f34cc3980bc256becdc6bd4483079fac54b5d42e1c7147&o=,https://cf.bstatic.com/xdata/images/hotel/max300/402044210.jpg?k=58db8c7bc9dd60de8fcb4186a588bfbbaa9ca88b699140b0fc500b9006793166&o=,https://cf.bstatic.com/xdata/images/hotel/max300/257933259.jpg?k=ce22ef5c93a25d9c1667f09f8c4caf2fea5c7d094433788b71a37dbb16d96c15&o=,https://cf.bstatic.com/xdata/images/hotel/max300/388865161.jpg?k=02afa7769a3ec4fb788fdcefac0ad814a36e43d2022b92b5e5e3114cb98040c7&o=,', '2025-03-12 18:56:01', '2025-03-12 18:56:01', 7, '280 Nam Ky Khoi Nghia, Ward 8, District 3'),
+(12, 'Sarene Lumiere Riverside Thao Dien', 1, 2, 3, 1, 'A variety of wellness packages are available for guests to get rejuvenated in-house. Bike hire and car hire are available at the apartment and the area is popular for hiking and walking tours. The apartment has a picnic area where you can spend a day out in the open.\r\nVietnam History Museum is 6.2 km from Sarene Lumiere Riverside Thao Dien, while Vincom Plaza Thu Duc is 7.3 km away. Tan Son Nhat International Airport is 10 km from the property, and the property offers a paid airport shuttle service.', 1200000, 1, 1, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/657474453.jpg?k=60191ca4bd2685361507a118dfb68a6f356a68fd18ca3a06e96835a3a831752c&o=,https://cf.bstatic.com/xdata/images/hotel/max500/657236472.jpg?k=9a53174a8c49a20ede947f8696163e9db4ab8199ff364f93ac63c3441d23566f&o=,https://cf.bstatic.com/xdata/images/hotel/max500/657236455.jpg?k=739096ea2dc02a18d224a46a6a508380867506dbbc8a312e73bc2cbef1d5e577&o=,https://cf.bstatic.com/xdata/images/hotel/max300/657474501.jpg?k=0af13e6eed4c6086b12514083ef9cce3beddbc41f00ccef4153af1cd278ecf26&o=,https://cf.bstatic.com/xdata/images/hotel/max300/657236213.jpg?k=c5c1f10961852ba66ca7f0823a6969c53b8ecb25915d297c473e18b0b78acfbc&o=,https://cf.bstatic.com/xdata/images/hotel/max300/657236471.jpg?k=716c50299573d54d8fbfeffaac417d790de5cb1514fb0fd5fa1649769843399d&o=,https://cf.bstatic.com/xdata/images/hotel/max300/657474482.jpg?k=b2a33fddfa85589dec98a2f475ff3cb3c31142a2dce926c6b06d8d0839393cf0&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/657472677.jpg?k=d7e92106d11f8c86fcf1582ce9691a95af18248e1df8407e63e063e59331b056&o=&hp=1', '2025-03-12 18:59:50', '2025-03-12 18:59:50', 11, ' 259 Vo Nguyen Giap '),
+(13, 'Green Airport Hotel', 1, 1, 1, 1, ' Guests benefit from a paid airport shuttle service, 24-hour front desk, room service, and free on-site private parking. Additional amenities include a hairdryer, refrigerator, and free toiletries.Highly rated by guests for its connectivity to the airport, shuttle service, and convenient location.', 499000, 1, 1, 1, 1, 1, 1, 1, 0, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/598878077.jpg?k=80fdfbe9e08ab3c073a77b6c6fac74db84938d30770e057ba178d38e5e915567&o=,https://cf.bstatic.com/xdata/images/hotel/max500/598878036.jpg?k=3088739adcbf5441f096885ec67c33fdf4597f4dbf6f4c7eeb3eae5527c1abdf&o=,https://cf.bstatic.com/xdata/images/hotel/max500/598878079.jpg?k=a55d95910a670f9400248f9bdb12e660e9d3b1dc0e294e43c94050e3cc02c7e1&o=,https://cf.bstatic.com/xdata/images/hotel/max300/598878039.jpg?k=9bb0cd546868b604a45c8454e275d4914fc8f8421bae2f315b180c1e565a7fbb&o=,https://cf.bstatic.com/xdata/images/hotel/max300/598881918.jpg?k=70d88f4156f45ec07e3eec9cb68bfd617041ac3288a39447ca5fdb726bd2324f&o=,https://cf.bstatic.com/xdata/images/hotel/max300/600272238.jpg?k=4975a241e128b9391f36002bc35c989ab2c2ca1ed87cc9ce41d17186b1840e08&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/598878045.jpg?k=aad585343eeae2a27e6ba95db8f9ec42f64f415cc2d3612df22f643d75778296&o=&hp=1', '2025-03-12 19:04:45', '2025-03-12 19:04:45', 11, '50/3 Truong Son Street'),
+(16, 'D View Apartment', 1, 1, 1, 1, ' D View Apartment in Đà Lạt offers family rooms with private bathrooms, walk-in showers, and city views. Each room includes a work desk, dining area, and free WiFi', 799000, 1, 0, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/628241761.jpg?k=4219547e37ddde7197c1fe6770518f6af66ee5711354afdee427693d0cb1dcff&o=,https://cf.bstatic.com/xdata/images/hotel/max500/636510757.jpg?k=627358e2a7672c8e45cf5d675994e36457230eaed49d01bfa8356a0253e20e80&o=,https://cf.bstatic.com/xdata/images/hotel/max500/628242809.jpg?k=f6e24b08774026165c4a1340de88ed5eb8d84637085d9c929e86ddac7021657e&o=,https://cf.bstatic.com/xdata/images/hotel/max300/628241757.jpg?k=ba1256ea29a4f2493d18b6876889b060b3c22b96e349e7de6ba500c2493e3ec8&o=,https://cf.bstatic.com/xdata/images/hotel/max300/628242001.jpg?k=a2944ff99ce85007f17c2ecf71680b4162ce93e00be956ade6f075a0a225a1cd&o=,https://cf.bstatic.com/xdata/images/hotel/max300/628243825.jpg?k=754e99cad171ccf20aa34ffc0c4f222dfb4a576e1fa1b9b628df12e746cea0d7&o=,https://cf.bstatic.com/xdata/images/hotel/max300/628243695.jpg?k=6b73dc1be2fe85143d78b3dc16a043e41874a789cdd87fe1e0cbe1319c9ceab3&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/628242007.jpg?k=5147cf10405721fdaf43cadb89bc8a6f15e9065836b7029e9ddc958d1fe6a546&o=&hp=1', '2025-03-12 19:13:15', '2025-03-12 19:13:15', 10, '17/1 Đường Trần Phú'),
+(17, 'Brick House Dalat Hotel', 1, 2, 3, 1, ' Located 29 km from Lien Khuong Airport, the hotel is a 6-minute walk from Hang Nga Crazy House. Nearby attractions include Lam Vien Square and Xuan Huong Lake, each 3 km away.The family-friendly restaurant serves Vietnamese cuisine with vegetarian options. Guests can enjoy a buffet breakfast featuring fresh pastries, pancakes, fruits, and juice.', 999000, 1, 1, 1, 1, 1, 1, 1, 0, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/516314407.jpg?k=31c9be7640d6c937f92d92cbcf8577900b1ed1473d10dcfb4a670dd91a27593e&o=,https://cf.bstatic.com/xdata/images/hotel/max500/548659211.jpg?k=e59784d1a18e2e1346bf27308c84c9512755bb561e4b1e91092e5690ac436fb6&o=,https://cf.bstatic.com/xdata/images/hotel/max500/548677725.jpg?k=f39f23b257c509fcda6d87aaa4a20327181de087d9d129b4b5018162c1a56274&o=,https://cf.bstatic.com/xdata/images/hotel/max300/516314499.jpg?k=f74f98d8108b9939375f78c8f2e8f0bdf14aaa29c1c413c5c81c11de438a9281&o=,https://cf.bstatic.com/xdata/images/hotel/max300/548659214.jpg?k=4a72e1fed0ad3d97097ddde7b1612e516394c7c17f136374959a623fcf40d3b3&o=,https://cf.bstatic.com/xdata/images/hotel/max300/548693009.jpg?k=d02c6193f12ec7aa3eddeec66febcf9661742264d21178408468d022cbc5f77d&o=,https://cf.bstatic.com/xdata/images/hotel/max300/548677153.jpg?k=70211c390764db1a220b834202d03e569e9e7ed834eb3ce82682223b1f7b2697&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/516314416.jpg?k=ca3ee1cc4c117664441d4faf9f4a00321e515af9293fe8b747886b15a50f90a7&o=&hp=1,', '2025-03-12 19:18:42', '2025-03-12 19:18:42', 10, '50 Pasteur'),
+(18, 'Bach Place Dalat', 1, 1, 1, 1, 'Guests can relax on the sun terrace or in the lush garden. The hotel provides free private parking, a coffee shop, and an outdoor seating area. Additional services include a 24-hour front desk, housekeeping, and a tour desk.', 999000, 1, 1, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/615812555.jpg?k=29ec9c05771b85d6d68127687ade694d6ebad014b13491fbfee007f0b3b78931&o=,https://cf.bstatic.com/xdata/images/hotel/max500/588598161.jpg?k=6b31a8c71c81bc6681be3bebc5f7b73ecbb4f34603b365d9d72fb6f319395dc4&o=,https://cf.bstatic.com/xdata/images/hotel/max500/615812543.jpg?k=8b3e40663376623b10ae7f5e2f8ac790eff1f41f14ce907da09c7e8a830ee6a2&o=,https://cf.bstatic.com/xdata/images/hotel/max300/588225366.jpg?k=0c7177faf4ff932edb3a995edac6b84238560d563f2faf7b865ff97c32814ac5&o=,https://cf.bstatic.com/xdata/images/hotel/max300/516670727.jpg?k=aae02b4e63e1992ba8e014e6b56dae917a5c3dc4631c19a9f88bf39b7ef6bb4e&o=,https://cf.bstatic.com/xdata/images/hotel/max300/516670715.jpg?k=a82dd0fac8198037e23f87ecfb7f50d1cd3c33a0c84961e6419d29620897e34d&o=,https://cf.bstatic.com/xdata/images/hotel/max300/615812560.jpg?k=a9d24defed1fdd71a1fae697680a597ea83927b4e0dc4475dc18602e8966d97a&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/588225581.jpg?k=628b4555b40d244d4cb9b78cd4f0dc1a831280d1d83a287ae43095e215edbf6b&o=&hp=1', '2025-03-12 19:23:19', '2025-03-12 19:23:19', 10, '268 Đường Hai Bà Trưng,'),
+(19, 'Luxtel Hotel Ngoại Giao Đoàn', 1, 2, 2, 1, 'The modern restaurant serves Vietnamese cuisine for brunch, lunch, and dinner. Guests can relax in the bar or unwind in the hot tub. Additional facilities include a garden, 24-hour front desk, and free on-site private parking.', 599000, 1, 1, 1, 1, 1, 1, 1, 0, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/543166644.jpg?k=3ad9870daa00f165e5791f1561f7578cbee9eef37ac6e05726de80e308a04d70&o=,https://cf.bstatic.com/xdata/images/hotel/max500/543166660.jpg?k=35c7a340f7a1ad2b0d6785d824c7040e4b0a01898c3e67ec7fa9d9b52d088244&o=,https://cf.bstatic.com/xdata/images/hotel/max500/487042595.jpg?k=4ab5de15ef9c245da24a7785c996e321beaf6c20d7dfc0e1fb33c4a911e955aa&o=,https://cf.bstatic.com/xdata/images/hotel/max300/543166650.jpg?k=258e42917b869a41a25e94c1591deffb574e477465b0bbf5ca32322bfe3570c8&o=,https://cf.bstatic.com/xdata/images/hotel/max300/543166653.jpg?k=cdb6f55647f0e31eb067c26799837cb3c34fd7f675abf0948bd17c2c91f15760&o=,https://cf.bstatic.com/xdata/images/hotel/max300/543166663.jpg?k=9070119482163d53e0a48514d2697995be76665a2c089c965a199150e134bcbb&o=,https://cf.bstatic.com/xdata/images/hotel/max300/487042598.jpg?k=0673dd08a2770e20277bbfa270d01c0137a977b4d0f57f72e2c59cdec8b69f74&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/546303200.jpg?k=93e811477910ff061cdd426ac43cf85bc8845723db10df1b6270db88acb85000&o=&hp=1', '2025-03-12 18:45:43', '2025-03-12 18:45:43', 8, 'BT6.24, Ngoại Giao Đoàn, P.Xuân Tảo, Q.Bắc Từ Liêm, TP. Hà Nội, Hanoi'),
+(20, 'Dream Premium Hotel & Spa', 1, 1, 1, 1, ' Located 24 km from Noi Bai International Airport, the hotel is a short walk from Ha Noi Railway Station and near attractions such as Hanoi Temple of Literature and Hoan Kiem Lake. An ice-skating rink is also nearby.The hotel serves international cuisine with a buffet breakfast. Additional amenities include a restaurant, bar, lounge, and shared kitchen.', 650000, 0, 1, 1, 1, 1, 1, 1, 0, 'https://cf.bstatic.com/xdata/images/hotel/max500/616241699.jpg?k=8711068d0dfd6486f2f171a2e602abb1846d06769953fcafdce5afb91b7fbb3d&o=,https://cf.bstatic.com/xdata/images/hotel/max500/616240877.jpg?k=3eae2fb197ad93f295dd2c2d11e7fcd6c22c3592924477ef648c7a1fa94fb978&o=,https://cf.bstatic.com/xdata/images/hotel/max300/577544995.jpg?k=7ab973d9ccd4961138a2f3c7e8813383311c0760aebda14904d62fcfc1ac6e44&o=,https://cf.bstatic.com/xdata/images/hotel/max300/577222423.jpg?k=27715ab5b8a821eb17eb5ddae0c469ce6b3a8e95db41d4a16bf111c7a063cd7e&o=,https://cf.bstatic.com/xdata/images/hotel/max300/616243340.jpg?k=7a8c8ffb87a3cbae16c2ea90fcec04c044a4173a8d1a1aed37804d419d0dab54&o=,https://cf.bstatic.com/xdata/images/hotel/max300/612401581.jpg?k=3788976346011fc1b4154f660d322634afbe2f385960959492c98d4971a4ad2e&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/577544995.jpg?k=7ab973d9ccd4961138a2f3c7e8813383311c0760aebda14904d62fcfc1ac6e44&o=&hp=1,https://cf.bstatic.com/xdata/images/hotel/max1024x768/577222408.jpg?k=7083e6b93bafafb779327e3b02e768c737bf104dc6844784f3e5f15d30cfca1a&o=&hp=1', '2025-03-12 18:50:30', '2025-03-12 18:50:30', 7, '12 Hoàng Văn Thụ,Tân Phú'),
+(21, 'La Vela Saigon Hotel', 1, 2, 2, 1, 'Located 5 km from Tan Son Nhat International Airport, the hotel is an 8-minute walk from Tan Dinh Market and close to attractions like the War Remnants Museum and Reunification Palace. Free on-site private parking is provided.Guests enjoy air-conditioning, private bathrooms, balconies with city views, and modern amenities such as minibars and flat-screen TVs. Additional facilities include a lounge, public bath, steam room, and fitness room.', 3500000, 1, 1, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/464640824.jpg?k=2ce1467d833309a6d9e4f1e5d35ba87454a50bcf620cc5926b410aca8148c219&o=,https://cf.bstatic.com/xdata/images/hotel/max500/588658625.jpg?k=1695cd5b9417bb3d25df988394e26d6cd48eb74dc849713f0e9a9c768dd3351e&o=,https://cf.bstatic.com/xdata/images/hotel/max500/347391949.jpg?k=b0f4e13c8c81de6ef2d541d86d31b2d57b173d1cf77fb7704773efb1a38c0bd8&o=,https://cf.bstatic.com/xdata/images/hotel/max300/325222137.jpg?k=56c624212a1b3f9257f34cc3980bc256becdc6bd4483079fac54b5d42e1c7147&o=,https://cf.bstatic.com/xdata/images/hotel/max300/402044210.jpg?k=58db8c7bc9dd60de8fcb4186a588bfbbaa9ca88b699140b0fc500b9006793166&o=,https://cf.bstatic.com/xdata/images/hotel/max300/257933259.jpg?k=ce22ef5c93a25d9c1667f09f8c4caf2fea5c7d094433788b71a37dbb16d96c15&o=,https://cf.bstatic.com/xdata/images/hotel/max300/388865161.jpg?k=02afa7769a3ec4fb788fdcefac0ad814a36e43d2022b92b5e5e3114cb98040c7&o=,', '2025-03-12 18:56:01', '2025-03-12 18:56:01', 11, '280 Nam Ky Khoi Nghia'),
+(22, 'Sarene Lumiere Riverside Thao Dien', 1, 2, 2, 1, 'A variety of wellness packages are available for guests to get rejuvenated in-house. Bike hire and car hire are available at the apartment and the area is popular for hiking and walking tours. The apartment has a picnic area where you can spend a day out in the open.\r\nVietnam History Museum is 6.2 km from Sarene Lumiere Riverside Thao Dien, while Vincom Plaza Thu Duc is 7.3 km away. Tan Son Nhat International Airport is 10 km from the property, and the property offers a paid airport shuttle service.', 1199000, 1, 1, 1, 1, 1, 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/657474453.jpg?k=60191ca4bd2685361507a118dfb68a6f356a68fd18ca3a06e96835a3a831752c&o=,https://cf.bstatic.com/xdata/images/hotel/max500/657236472.jpg?k=9a53174a8c49a20ede947f8696163e9db4ab8199ff364f93ac63c3441d23566f&o=,https://cf.bstatic.com/xdata/images/hotel/max500/657236455.jpg?k=739096ea2dc02a18d224a46a6a508380867506dbbc8a312e73bc2cbef1d5e577&o=,https://cf.bstatic.com/xdata/images/hotel/max300/657474501.jpg?k=0af13e6eed4c6086b12514083ef9cce3beddbc41f00ccef4153af1cd278ecf26&o=,https://cf.bstatic.com/xdata/images/hotel/max300/657236213.jpg?k=c5c1f10961852ba66ca7f0823a6969c53b8ecb25915d297c473e18b0b78acfbc&o=,https://cf.bstatic.com/xdata/images/hotel/max300/657236471.jpg?k=716c50299573d54d8fbfeffaac417d790de5cb1514fb0fd5fa1649769843399d&o=,https://cf.bstatic.com/xdata/images/hotel/max300/657474482.jpg?k=b2a33fddfa85589dec98a2f475ff3cb3c31142a2dce926c6b06d8d0839393cf0&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/657472677.jpg?k=d7e92106d11f8c86fcf1582ce9691a95af18248e1df8407e63e063e59331b056&o=&hp=1', '2025-03-12 18:59:50', '2025-03-12 18:59:50', 7, 'Lumiere Riverside Thao Dien, 259 Vo Nguyen Giap Street'),
+(23, 'Green Airport Hotel', 1, 1, 1, 1, 'Located 1000 metres from Tan Son Nhat International Airport, the hotel is near attractions such as Tan Dinh Market and Giac Lam Pagoda, each 5 km away. Other points of interest include the War Remnants Museum and Reunification Palace, each 6 km from the hotel.', 499000, 1, 1, 1, 1, 1, 1, 1, 0, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/598878077.jpg?k=80fdfbe9e08ab3c073a77b6c6fac74db84938d30770e057ba178d38e5e915567&o=,https://cf.bstatic.com/xdata/images/hotel/max500/598878036.jpg?k=3088739adcbf5441f096885ec67c33fdf4597f4dbf6f4c7eeb3eae5527c1abdf&o=,https://cf.bstatic.com/xdata/images/hotel/max500/598878079.jpg?k=a55d95910a670f9400248f9bdb12e660e9d3b1dc0e294e43c94050e3cc02c7e1&o=,https://cf.bstatic.com/xdata/images/hotel/max300/598878039.jpg?k=9bb0cd546868b604a45c8454e275d4914fc8f8421bae2f315b180c1e565a7fbb&o=,https://cf.bstatic.com/xdata/images/hotel/max300/598881918.jpg?k=70d88f4156f45ec07e3eec9cb68bfd617041ac3288a39447ca5fdb726bd2324f&o=,https://cf.bstatic.com/xdata/images/hotel/max300/600272238.jpg?k=4975a241e128b9391f36002bc35c989ab2c2ca1ed87cc9ce41d17186b1840e08&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/598878045.jpg?k=aad585343eeae2a27e6ba95db8f9ec42f64f415cc2d3612df22f643d75778296&o=&hp=1', '2025-03-12 19:04:45', '2025-03-12 19:04:45', 7, '50/3 Truong Son Street, Ward 2, Tan Binh'),
+(25, ' Nexus House An Sơn', 1, 1, 1, 1, 'Located 34 km from Lien Khuong Airport, the hotel is near boating activities. Private airport shuttle and car hire services are available. Reception staff speak English, Spanish, French, Vietnamese, and Chinese. Rooms feature garden views, private bathrooms with walk-in showers, bathrobes, and free toiletries. Additional amenities include balconies, spa baths, soundproofing, and work desks. The hotel provides a coffee shop, outdoor seating area, and room service.', 799000, 1, 1, 1, 1, 1, 1, 1, 0, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/644498891.jpg?k=b02c9015316867c50ecdd0d17545defcf59b02fcd548ffb8b8a0eae36483c0a2&o=,https://cf.bstatic.com/xdata/images/hotel/max500/641741725.jpg?k=564d5f9ec6c95dc1dd9a31e770f0be22057a5e5fa29b817ecd230229755b9c65&o=,https://cf.bstatic.com/xdata/images/hotel/max500/641400273.jpg?k=443b185e4c28dba4a4b7be27a675dd65c9e3c4d81d890646f8d8b492bbb14090&o=,https://cf.bstatic.com/xdata/images/hotel/max300/641742242.jpg?k=c5db245ac0f89ec35d2950827573b0ece8abde1217bc2382b65099ed9e0785a1&o=,https://cf.bstatic.com/xdata/images/hotel/max300/641741729.jpg?k=e1db65d82f33edfa8529a402f51ed490f6e908c7a9d64aee50157c674752b0ea&o=,.https://cf.bstatic.com/xdata/images/hotel/max300/641741714.jpg?k=ebfcc84d6fe7ab7ba20871c340788b07fff1e7ce0191c30205138b556eef04db&o=,https://cf.bstatic.com/xdata/images/hotel/max1024x768/641743383.jpg?k=af0cc0fb06e98905fcbb7c7cfa7244800eeac8f30abea525984cb4db3f0c9c08&o=&hp=1', '2025-03-12 19:09:35', '2025-03-12 19:09:35', 10, 'An Sơn'),
+(29, 'Nhà Tôi', 1, 0, 1, 1, 'Nhà tôi luôn luôn là đẹp nhất', 123454, 0, 1, 0, 0, 0, 1, 0, 0, 'https://pixabay.com/vi/photos/thu-h%C3%BAt-kh%C3%A1ch-du-l%E1%BB%8Bch-paris-du-l%E1%BB%8Bch-6491734/', '2025-05-23 18:18:10', '2025-05-23 18:18:10', 6, 'Bình Minh');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `pass_word` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `birth_day` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `google_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `face_app_id` varchar(255) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `role_id` int NOT NULL DEFAULT '2',
+  `refresh_token` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `full_name`, `email`, `pass_word`, `phone`, `birth_day`, `gender`, `created_at`, `updated_at`, `google_id`, `face_app_id`, `avatar`, `role_id`, `refresh_token`) VALUES
+(7, 'nguyen van a', 'vana@gmail.com', '$2b$10$uQWvw89KCuyQHzoq3CYviO97ggPynmu2JrwcpLOlhTkKo5PudhmiO', '0987654321', '01-01-01', 'male', '2025-03-25 10:18:51', '2025-05-18 09:51:00', NULL, NULL, 'string', 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTc0MzE2Nzk3OCwiZXhwIjoxNzQzNzcyNzc4fQ.B3USzoYii9vaLTlcYk_aaSEhbXaN703MxSENqUZxcfA'),
+(8, 'nguyen van b', 'vanb@gmail.com', '$2b$10$CRamgrrcnkd4IR/fTb4eguAbHxQS7WRE9R2k3rtCMYrycEJU7hkLq', '0987654321', '00-00-2000', 'female', '2025-03-25 10:19:37', '2025-05-19 19:46:21', NULL, NULL, '', 2, NULL),
+(9, 'nguyen van c', 'vanc@gmail.com', '$2b$10$ig2y/XMPsHjiRbHoRpgfMOQaUhnfmu4KEFM12GsxHmIlIzao5lZ36', '0987654321', '00-00-2000', 'male', '2025-03-25 10:19:51', '2025-05-19 20:20:00', NULL, NULL, NULL, 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc0NzY4NjAwMCwiZXhwIjoxNzQ4MjkwODAwfQ.MN1igJVdUuHixe6JQuNC4s6AqtWOtVsmlWzo8MMzTz8'),
+(10, 'nguyen van d', 'vand@gmail.com', '$2b$10$L2dJBR0iIjMzDOh3vN8d5e4.UTE7DZCb2ny1ExX.1Qu2eT3NDcORe', '0987654321', '00-00-2000', 'male', '2025-03-25 10:20:06', '2025-03-25 10:20:06', NULL, NULL, NULL, 2, NULL),
+(11, 'nguyen van e', 'vane@gmail.com', '$2b$10$RtcrxWjcmnAL03kTOjTIwueyWbggAgZkuwKmf/cVPf60OtJSo2e7m', '0987654321', '00-00-2000', 'male', '2025-03-25 10:20:19', '2025-03-25 10:20:19', NULL, NULL, NULL, 2, NULL),
+(12, 'nguyen van h', 'vanh@gmail.com', '$2b$10$VSjo6i5utgM5zBvsa0WaK.eyrrweeo42U6zFLpobCIUqBfDlvqasC', '0987654321', '00-00-2000', 'male', '2025-03-25 10:20:36', '2025-03-25 10:20:36', NULL, NULL, NULL, 2, NULL),
+(17, 'nguyen van test', 'test@gmail.com', '$2b$10$FSWdvf/aEvHoV9cMCUGOrOAiD5RV2BHkJWN43hPHmJY6sYl71RTx6', '098765432', '01-01-01', 'male', '2025-03-27 07:00:05', '2025-03-27 07:00:39', NULL, NULL, NULL, 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE3LCJpYXQiOjE3NDMwNTg4MzksImV4cCI6MTc0MzY2MzYzOX0.geNc7QnR6WnGC85ZJvtDqrR_jOE7ImG3n5AC-IK_798'),
+(19, 'update user', 'new@gmail.com', '$2b$20$G5Lb2Bh8W5Pc7Y5wo0FKheOw.UfLnvhu8mgelAtdKlWQ1r.PNRLhu', '098765432', '01-01-01', 'string', '2025-03-27 07:16:36', '2025-03-27 07:18:20', NULL, NULL, 'string', 1, NULL),
+(22, 'nguyen van a', 'nguyenvana@gmail.com', '$2b$10$1mr7fTxOLYC6RgSHeT.FvemJoNoCS6yaJ634sEOt4a/lHm5GDGtY.', '0123456789', '12-01-2001', 'male', '2025-05-17 18:26:15', '2025-05-18 07:29:19', NULL, NULL, 'https://res.cloudinary.com/nguyenngocanh/image/upload/v1743059506/images/hpyjykacytrxnvglly7f.jpg', 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIyLCJpYXQiOjE3NDc1NTIxODgsImV4cCI6MTc0ODE1Njk4OH0.wwugHIRGL_b4vWzM4ZJsz9WmLFQpQq7QysSKaCvZ_MU'),
+(24, 'ngocanh', 'ngocanh@gmail.com', '$2b$10$8P00bPAzOms9KidKXFfyEujM/4E9slWk1UU578ceikj0EdmYoOCxa', '0123456789', '01-01-01', 'male', '2025-05-19 20:07:20', '2025-05-26 09:39:30', NULL, NULL, NULL, 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJpYXQiOjE3NDgyNTIzNzAsImV4cCI6MTc0ODg1NzE3MH0.AMtE4jBKfOTTsbV61erJSQIUvrIBZ1bKvw4s9zlHa_c'),
+(25, 'admin', 'admin@gmail.com', '$2b$10$osXoLLTyajEtRcU6yf5cjuBG4KLefFBOjw1swZPUOFF0xxiC/9jSK', '0123456789', '01-01-01', 'male', '2025-05-19 20:18:45', '2025-05-26 04:55:07', NULL, NULL, NULL, 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI1LCJpYXQiOjE3NDgyMzUzMDcsImV4cCI6MTc0ODg0MDEwN30.sm5kqgX97zozxhDCBZJBXKLIa7adjzWPCZn90zGv4oE'),
+(26, 'testuser', 'testuser@gmail.com', '$2b$10$l2fX068Map6szOU86bjWu.v33/eXEwkOhklb3rnfHlGYJotPvy9R6', '0987654321', '00-00-001', 'male', '2025-05-19 20:26:32', '2025-05-22 18:00:53', NULL, NULL, 'https://res.cloudinary.com/nguyenngocanh/image/upload/v1747935037/images/mchinwjaaonzk7chzdkv.jpg', 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI2LCJpYXQiOjE3NDc5MzYyMzMsImV4cCI6MTc0ODU0MTAzM30.bSlig2MHdb2qBzP1aUtIZ3YVg6vLWZJieNCdeQt1Jeg'),
+(31, 'nguyen van a', 'toilaa@gmail.com', '$2b$10$cLirzBAFSznDmPhvIOGajuozBFUBXgBU7NGoeH/jzuL1RiuRk8RtC', '0123456789', '01-01-01', 'male', '2025-05-25 18:23:48', '2025-05-25 18:51:27', NULL, NULL, '', 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMxLCJpYXQiOjE3NDgxOTc0MzQsImV4cCI6MTc0ODgwMjIzNH0.jE5p56RRLB1mK3L55eDQgNCnkIjjWHzAAkadUd_5iKA');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD PRIMARY KEY (`booking_id`),
+  ADD KEY `bookings_ibfk_1` (`room_id`),
+  ADD KEY `bookings_ibfk_2` (`user_id`);
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`comment_id`),
+  ADD KEY `comments_ibfk_1` (`room_id`),
+  ADD KEY `comments_ibfk_2` (`user_id`);
+
+--
+-- Indexes for table `locations`
+--
+ALTER TABLE `locations`
+  ADD PRIMARY KEY (`location_id`);
+
+--
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`permission_id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`role_id`);
+
+--
+-- Indexes for table `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  ADD PRIMARY KEY (`role_permission_id`),
+  ADD KEY `role_permssion_ibfk1` (`permission_id`),
+  ADD KEY `role_permission_idfk2` (`role_id`);
+
+--
+-- Indexes for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`room_id`),
+  ADD KEY `rooms_ibfk1` (`location_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `role_id` (`role_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `booking_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `comment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `locations`
+--
+ALTER TABLE `locations`
+  MODIFY `location_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `permission_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `role_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  MODIFY `role_permission_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `rooms`
+--
+ALTER TABLE `rooms`
+  MODIFY `room_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`room_id`),
+  ADD CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`room_id`),
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  ADD CONSTRAINT `role_permission_idfk2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`),
+  ADD CONSTRAINT `role_permssion_ibfk1` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`permission_id`);
+
+--
+-- Constraints for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD CONSTRAINT `rooms_ibfk1` FOREIGN KEY (`location_id`) REFERENCES `locations` (`location_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

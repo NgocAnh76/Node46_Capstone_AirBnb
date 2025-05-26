@@ -28,8 +28,14 @@ export class BookingService {
   }
 
   async findAll() {
-    return await this.prisma.bookings.findMany();
+    return await this.prisma.bookings.findMany({
+      include: {
+        users: { select: { full_name: true } },
+        rooms: { select: { room_name: true } },
+      },
+    });
   }
+
   async findOne(id: number) {
     const bookingExist = await this.prisma.bookings.findUnique({
       where: { booking_id: id },

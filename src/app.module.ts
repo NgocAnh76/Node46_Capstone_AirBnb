@@ -18,7 +18,6 @@ import { CheckPermissionStrategy } from './modules/auth/permission/permission-st
       isGlobal: true,
       envFilePath: '.env',
       cache: true,
-      expandVariables: true,
     }),
     AuthModule,
     RoomModule,

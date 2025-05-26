@@ -111,8 +111,8 @@ export class UserService {
 
     cloudinary.config({
       cloud_name: 'nguyenngocanh',
-      api_key: '782482279377515',
-      api_secret: 'P6b4oyAII-DoQFCsWNPoIKyIOBs',
+      api_key: '788724199485274',
+      api_secret: 'EiAComUHLBH79_kIQTIxjK9eqjo',
     });
 
     const uploadResult: any = await new Promise((resolve) => {

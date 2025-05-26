@@ -15,39 +15,34 @@ import { SkipPermission } from 'src/common/decorators/skip-permission.decorator'
 
 @Controller('booking')
 @ApiBearerAuth()
+@SkipPermission()
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
   @Post()
-  @SkipPermission()
   create(@Body() createBookingDto: CreateBookingDto) {
     return this.bookingService.create(createBookingDto);
   }
 
   @Get()
-  @SkipPermission()
   findAll() {
     return this.bookingService.findAll();
   }
 
   @Get(':id')
-  @SkipPermission()
   findOne(@Param('id') id: string) {
     return this.bookingService.findOne(+id);
   }
   @Get('room/:id')
-  @SkipPermission()
   findByRoom(@Param('id') id: string) {
     return this.bookingService.findByRoom(+id);
   }
 
   @Get('user/:id')
-  @SkipPermission()
   findByNameId(@Param('id') id: string) {
     return this.bookingService.findByNameId(+id);
   }
   @Put(':id')
-  @SkipPermission()
   update(@Param('id') id: string, @Body() updateBookingDto: UpdateBookingDto) {
     return this.bookingService.update(+id, updateBookingDto);
   }
